@@ -1,5 +1,5 @@
-##Chapter 1
-###Preprocessing, Linking & Loading
+## Chapter 1
+### Preprocessing, Linking & Loading
 When you compile a C\+\+ source, the first thing that it will happen is preprocessing. The C\+\+ preprocessor will ensure that preprocessing directives (e.g. including other C\+\+ sources, etc) codes are performed before the actual compilation.
 
 After the preprocessing step, the compiler will translate the C\+\+ source into an object code.
@@ -8,8 +8,8 @@ Linking phase then will link referenced functions/data that are defined elsewher
 
 When you execute the executable program, the loader will transfer the object code, with the required references into the memory
 
-##Chapter 2
-###An example code
+## Chapter 2
+### An example code
 ```cpp
 #include <iostream>
 using namespace std; //if you do not use the std namespace, everytime you will need to do something like this *std::cout*
@@ -31,8 +31,8 @@ However, you can do this:
 cout << "Hello, world!" << an_integer << endl;
 ```
 
-##Chapter 3
-###An example code
+## Chapter 3
+### An example code
 ```cpp
 #include <iostream>
 #include <string> //if you use Eclipse Oxygen with CDT and do not have this preprocessor, it will work too!
@@ -77,7 +77,7 @@ If you want to distribute your class, remove the main methods, and save the sour
 
 substr e.g. `name.substr(0, 25); //start at 0, length of 25`
 
-##Chapter 4
+## Chapter 4
 There's no `elseif`, only `if ... else if ... else`.
 
 e.g. `unsigned int val = 0; //only store positive integers from 0 onwards`
@@ -96,14 +96,14 @@ casting
 	cout << intVal << endl; //it will return 11
 ```
 
-##Chapter 5
+## Chapter 5
 e.g. `cout << "Year" << setw(10) << "Test" << endl; //setw makes the next column right justified having a field width of # char`
 
 e.g. `pow(2,3); //2 to the power of 3, need to have #include <cmath>`
 
 e.g. `(char grade = cin.get()) != EOF; //store 1 char into grade. EOF is either (ctr + d) or (ctr + z)`
 
-##Chapter 6
+## Chapter 6
 Formal and actual parameters
 ```cpp
 void foo(int arg); //arg is a formal parameter
@@ -187,7 +187,7 @@ function long fibo(long num) {
 }
 ```
 
-##Chapter 7
+## Chapter 7
 To define an array, use `array<type, srraySize> arrayName;`. Needs to `#include <array>`
 e.g. `array<int, 12> c;` or `array<int, 12> c = {1, 2, 3};`
 
@@ -264,7 +264,7 @@ intVec.push_back(101); //add 101 to element #6
 vector<int> anotherVec(intVec); //use of copy constructor. Initialize a new object with another object.
 ```
 
-##Chapter 8
+## Chapter 8
 Pointers
 ```cpp
 int y=5;
@@ -343,7 +343,7 @@ const char *colorPtr = "blue";
 char color2[] = {'b', 'l', 'u', 'e'}; //all these 3 are the same
 ```
 
-##Chapter 9
+## Chapter 9
 Prevent multiple inclusions of header files
 e.g.
 ```cpp
