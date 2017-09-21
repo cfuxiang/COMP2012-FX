@@ -470,3 +470,51 @@ int main() {
     cout << t.setHour(10).getHour();
 }
 ```
+
+## Chapter 10
+To use an operator on an object of a class, must define overloaded operator functions for that class - with 3 exceptios:
+* (=) may be used with most classes to perform memberwise assignment of data members but memberwise assignment is dangerous for classes with pointer members, so better to explicitly overload the assignment operator for such classes
+* address (&) operator returns a pointer to the object - this operator can also be overloaded
+* (,) comma operator evaluates the expression to its left then the expression to its right and return the value of the latter expression - this can also be overloaded
+
+Operators that cannot be overloaded - `. | .* (pointer to member) | :: | ?:`
+
+Rules and Restrictions on Operator Overloading for your own classes:
+* precedence of an operator cannot be changed by overloading - but can use parentheses to force order of evaluation
+* associativity of an operator cannot be changed by overloading e.g. if the operator normally associates from left to right, cannot change it to associates from righ to left
+* cannot change the number of operands an operator takes
+* cannot create new operators
+* the meaning of how an operator works on values of fundamental types cannot be changed by operator overloading
+* related operators like `+`and `+=` must be overloaded separately
+* when overloading `(), [], ->` or any of the assignment operators, the operator overloading function must be declared as a class member. For all other overloadable operators, the operator overloading functions can be member functions or non-member functions.
+
+Overloading Binary Operators
+- a binary operator can be overloaded as a non-static member function with 1 parameter OR as a non-member function with 2 parameters (1 of these parameters must be either a class object or a reference to a class object)
+- a non-member operator function is often declared as friend of a class for performance reasons
+
+e.g.
+```cpp
+//example usage cout << somePhoneNumber;
+ostream &operator<<(ostream &output, const PhoneNumber &number) {
+	output << "(" << number.areaCode << ")";
+    return output;
+}
+```
+
+Overloading Unary Operators
+- a unary operator for a class can be overloaded as a non-static member function with no arguments or as a non-member function with one argument that must be an object (or a reference to an object) of the class
+e.g.
+```cpp
+class X {
+
+};
+
+void operator!(X) {
+  cout << "void operator!(X)" << endl;
+}
+
+int main() {
+  X ox;
+  !ox; //prints "void operator!(X)"
+}
+```
