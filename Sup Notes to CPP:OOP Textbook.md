@@ -504,6 +504,7 @@ ostream &operator<<(ostream &output, const PhoneNumber &number) {
 Overloading Unary Operators
 - a unary operator for a class can be overloaded as a non-static member function with no arguments or as a non-member function with one argument that must be an object (or a reference to an object) of the class
 e.g.
+
 ```cpp
 class X {
 
@@ -518,3 +519,108 @@ int main() {
   !ox; //prints "void operator!(X)"
 }
 ```
+
+## Chapter 18
+e.g. of a template
+```cpp
+...
+
+template <typename T>
+class Stack {
+public:
+	T& pop() {
+    	return stack.front();
+    }
+    ...
+private:
+	std::deque<T> stack;
+}
+```
+
+e.g. of declaring template's member function outside the class template definition
+```cpp
+template <typename T> //instead of typename, you can also use class; You can also have a default type argument e.g. template <typename T, class Container = deque<T>>
+inline void Stack<T>::pop(){ //inline means compiler will replace the function definition by the whole body whenever it sees any calls
+	stack.pop_front();
+}
+```
+
+e.g. of using the template
+```cpp
+...
+int main() {
+	Stack<double> doubleStack;
+    ...
+	return 0;
+}
+```
+
+## Chapter 19
+
+A self-referential class contains a member that points to a class object of the same class type.
+
+### Singly Linked List
+* It is a linear collection of self-referential class objects called nodes connected by pointer links.
+* It is accessed via a pointer to the list's 1st node.
+* Each subsequent node is accessed via the link-pointer member stored in the previous node.
+* By convention, the link pointer in the last node of a list is set to nullptr to mark the end of the list.
+* It may be traversed in only one direction.
+
+### Some advantages of list over array
+* It is appropriate when the number of data elements to be represented at one time is unpredictable.
+* It is dynamic so the length of a list can increase or decrease as necessary.
+* It can be maintained in sorted order by inserting each new element at the proper point in the list. Existing list elements do not need to be moved. Pointers merely need to be updated to point to the correct node.
+
+### Circular Singly Linked List
+* It begins with a pointer to the 1st node, and each node contains a pointer to the next node.
+* The last node does not contain nullptr but points back to the 1st node.
+
+### Doubly Linked List
+* It allows traversals both forward and backward.
+* It is implemented with 2 start pointers - one that points to the 1st element of the list to allow front-to-back traversal of the list, and one that points to the last element to allow back-to-front traversal.
+* Each node has both a forward pointer to the next node in the list in the forward direction and a backward pointer to the next node in the list in the backward direction.
+
+### Circular Doubly Linked List
+* The forward pointer of the last node points to the first node and the backward pointer of the first node points to the last node.
+
+### Stack (LIFO)
+* A node can be added to a stack and removed from a stack only at its top.
+
+### Queue (FIFO)
+* Queue nodes are removed only from the head of the queue and are inserted only at the tail of the queue.
+
+### Tree
+* Linked lists, stacks and queues are linear data structures.
+* A tree is a nonlinear, 2D data structure.
+* Tree nodes contain 2 or more links.
+* The root node is the first node in a tree.
+* Each link in the root node refers to a child.
+* The left child is the root node of the left subtree and the right child is the root node of the right subtree.
+* The children of a given node are called siblings.
+* A node with no children is a leaf node.
+
+### Binary Search Tree
+* A binary search tree has the characteristic that the values in any left subtree are less than the value in its parent node, and the values in any right subtree are greater than the value in its parent node.
+* The shape of the binary search tree that corresponds to a set of data can vary, depending on the order in which the values are inserted into the tree.
+* A node can only be inserted as a leaf node in a binary search tree.
+* If the tree is empty, a new TreeNode is created, initialized and inserted in the tree. 
+* If the tree is not empty, it will compares the value to be inserted with the data value in the root node. If the insert value is smaller, the program recursively insert the value in the left subtree. If the insert value is larger, the program recursively insert the value in the right subtree.
+* If the value to be inserted is identical to the data value in the root node (or any other node), the program will return a message without inserting the duplicate value into the tree.
+
+### Inorder Travel Algorithm
+* Traverse the left subtree with an inorder traversal (Left, Root, Right)
+* Process the value in the node
+* Traverse the right subtree with an inorder traversal
+
+The inorder traversal of a binary search tree prints the node values in ascending order. The process of creating a binary search tree actually sorts the data - thus, this process is called the binary tree sort.
+
+### Preorder Traversal Algorithm
+* Process the value in the node
+* Traverse the left subtree with a preorder traversal (Root, Left, Right)
+* Traverse the right subtree with a preorder traversal
+
+### Postorder Traversal Algorithm
+* Traverse the left subtree with a postorder traversal (Left, Right, Root)
+* Traverse the right subtree with a postorder traversal
+* Process the value in the node
+
