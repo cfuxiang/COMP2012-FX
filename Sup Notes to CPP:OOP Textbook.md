@@ -624,3 +624,61 @@ The inorder traversal of a binary search tree prints the node values in ascendin
 * Traverse the right subtree with a postorder traversal
 * Process the value in the node
 
+## Chapter 15
+
+* sequence containers represent linear data structures e.g. array, vector, deque, list and forward_list
+* associative containers are nonlinear data structures that typically can locate elements stored in the containers quickly (key-value pairs) e.g. multiset, set, multimap, map, unordered_multiset, unordered_set, unordered_multimap & unordered_map
+* sequence containers and associative containers are collectively referred to as the first-class containers
+
+
+* When an object is inserted into a container, a copy of the object is made.
+
+* Iterators have many similarities to pointers and are used to point to first-class container elements and for other purposes.
+* We use iterators with sequences. These sequences can be in containers, or they can be input/output sequences.
+
+e.g.
+```cpp
+#include <iostream>
+#include <iterator>
+using namespace std;
+
+int main() {
+	cout << "Enter two integers: ";
+    //create istream_iterator for reading int values from cin
+    istream_iterator<int> inputInt(cin);
+    
+    int num1 = *inputInt; //read int from standard input
+    ++inputInt; //move iterator to next input value
+    int num2 = *inputInt; //read int from standard input
+    
+    //create ostream_iterator for writing int values to cout
+    ostream_iterator<int> outputInt(cout);
+    
+    cout << "The sum is: ";
+    *outputInt = num1 + num2; //output result to cout
+    cout << endl;
+}
+```
+
+e.g.
+```cpp
+...
+#include <algorithm> //copy algorithm
+...
+
+int main() {
+	const size_t SIZE = 6;
+    array<int,  SIZE> values = {1, 2, 3, 4, 5, 6};
+    vector<int> integers(values.cbegin(), values.cend());
+    ostream_iterator<int> output(cout, " ");
+    
+    cout << "Vector integers contains: ";
+    copy(integers.cbegin(), integers.cend(), output); //output the entire contents of integers to the standard output. The algorithm copies each element in a range from the location specified by the interator in its first argument and up to, but not including, the location specified by the iterator in its second argument. These two arguments must satisfy input iterator requirements - they must be iterators through which values can be read from a container, such as const_iterators. They must also represent a range of elements - applying ++ to the first iterator must eventually cause it to reach the second iterator argument in the range. The elements are copied to the location specified by the output iterator (i.e., an iterator through which a value can be stored or output) specified as the last argument.
+    ...
+}
+```
+
+## Chapter 16
+
+As there are too many algorithms in this chapter, please read this chapter yourself. This chapter can be served as a reference guide for algorithm usages.
+
