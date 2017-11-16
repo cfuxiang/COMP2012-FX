@@ -519,6 +519,90 @@ int main() {
   !ox; //prints "void operator!(X)"
 }
 ```
+## Chapter 11
+* With public inheritance, every object of a derived class is also an object of that derived class's base class. However, base class objects are not objects of their derived classes.
+* An indirect base class is inherited from two or more levels up the class hierarchy.
+```cpp
+class DerivedClass: public BasedClass {}; //public inheritance
+```
+* With all forms of inheritance, private members of a base class are not accessible directly from that class's derived classes, but these private base-class members are still inherited.
+* With public inheritance, all other base class members retain their original member access when they become members of the derived class.
+* Friend functions are not inherited.
+* Objects of all clases derived from a common base class can be treated as objects of that base class (i.e., such objects have an is-a relationship with the base class).
+* C++ requires that a derived-class constructor call its base-class constructor to initialize the base-class data members that are inherited into the derived class. e.g.
+```cpp
+double BaseClass::getBaseSalary() const {
+	return baseSalary;
+}
+```
+* A base class's protected members can be accessed within the body of that base class, by members and friends of that base class, and by members and friends of any classes derived from that base class.
+* Objects of a derived class also can access protected members in any of that derived class's indirect base classes.
+* Inheriting protected data members slightly improves performance, because we can directly access the members without incurring the overhead of calls to set or get member functions.
+* If we want to change the private data members' values in the base class, usually we use its derived setter functions.
+* Instantiating a derived-class object begins a chain of constructor calls in which the derived class constructor, before performing its own tasks, invokes its direct base class's constructor either explicitly (via a base-class member initializer) or implicitly (calling the base class's default constructor). Similarly, if the base class is derived from another class, the base class constructor is required to invoke the constructor of the next class up in the hierarchy, and so on. The last constructor called in this chain is the one of the class at the base of the hierarchy, whose body actually finishes executing first. The most derived class constructor's body finishes execyting last.
+* When a derived class object is destroyed, the program calls that object's destructor. This begins a chain (or cascade) of destructor calls in which the derived class destructor and the destructors of the direct and indirect base classes and the classes' members execute in reverse of the order in which the constructors executed. When a derived class object's destructor is called, the destructor performs its tasks, then invokes the destructor of the next base class up the hierarchy. This process repeats until the destructor of the final base class at the top of the hierarchy is called. Then the object is removed from memory.
+* Base class constructors, destructors and overloaded assignment operators are not inherited by derived classes. Derived class constructors, destructors and overloaded assignment operators, however, can call base class versions.
+* When deriving a class with public inheritance, public members of the base class become public members of the derived class, and protected members of the base class become protected members of the derived class. A base class's private members are never accessible directly from a derived class, but can be accessed through calls to the public and protected members of the base class. When deriving a class with protected inheritance, public and protected members of the base class become protected members of the derived class. When deriving a class with private inheritance, public and protected members of the base class become private members of the derived class. Private and protected inheritance are not is-a relationships.
+
+## Chapter 12
+e.g.
+```cpp
+BaseClass *baseClassPtr = nullptr; //base class ptr
+DerivedClass derivedClass; //derived class
+
+baseClassPtr = &derivedClass;
+baseClassPtr->getName();
+```
+* An overridden function in a derived class has the same signature and return type as the function it overrides in its base class. If we do not declare the base class function as virtual, we can redefine that function. By contrast, if we declare the base class function as virtual, we can override that function to enable polymorphic behavior.
+
+e.g.
+```cpp
+virtual void draw() const; //virtual functions do not have to be const functions
+```
+
+* If a program invokes a virtual function through a base class pointer to a derived class object or a base class reference to a derived class object, the program will choose the correct derived-class function dynamically at execution time based on the object type - not the pointer or reerence type. Choosing the appropriate function to call at execution time (rather than at compile time) is known as dynamic binding or late binding.
+* When a virtual function is called by referencing a specific object by name and using the dot member selection operator, the function invocation is resolved at compile time (static binding) and the virtual function that's called is the one defined for (or inherited by) the class of that particular object - this is not polymorphic behavior. Thus, dynamic binding with virtual functions occurs only off pointers.
+
+e.g.
+```cpp
+BaseClass *baseClassPtr = nullptr;
+BaseClass baseClassObj;
+DerivedClass *derivedClassPtr = nullptr;
+DerivedClass derivedClassObj;
+
+baseClassObj.print(); //static binding
+derivedClassObj.print(); //static binding
+
+baseClassPtr = &baseClassObj;
+baseClassPtr->print(); //invokes base class print
+
+derivedClassPtr = &derivedClassObj;
+derivedClassPtr->print(); //invokes derived class print
+
+baseClassPtr = &derivedClassObj;
+baseClassPtr->print(); //polymorphism; invokes deriveClassObj's print
+```
+* If a derived class object with a non virtual destructor is destroyed by applying the delete operator to a base class pointer to the object, the C\+\+ standard specifies that the behavior is undefined. The simple solution is to create a public virtual destructor in the base class. If a base class destructor is declared virtual, the destructors of any derived classes are also virtual and they override the base class destructor. Now, if an object in the hierarchy is destroyed explicitly by applying the delete operator to a base-class pointer, the destructor for the appropriate class is called based on the object to which the base class pointer points. When a derived class object is destroyed, the base class part of the derived class object is also destroyed. So, its important for the destructors of both the derived and base classes to execute. The base class destructor automatically executes after the derived class destructor.
+
+e.g.
+```cpp
+virtual ˜BaseClass() {}
+```
+
+* Prior to C\+\+, a derived class could override any of its base class's virtual functions.
+* Prior to C\+\+, any existing class could be used as a base class in a hierarchy.
+
+* A class is made abstract by declaring one or more of its virtual functions to be pure. A pure virtual function is specified by placing "=0" in its declaration.
+e.g.
+```cpp
+virtual void draw() const = 0; //pure virtual function
+```
+
+* Pure virtual functions typically do not provide implementations, though they can.
+* Each concrete derived class must override all base class pure virtual functions with concrete implementations of those functions; otherwise, the derived class is also abstract.
+* The difference between a virtual function and a pure virtual function is that a virtual function has an implementation and gives the derived class the option of overriding the function; by contrast, a pure virtual function does not have an implementation and requires the derived class to override the function for that derived class to be concrete; otherwise the derived class remains abstract.
+* Although we cannot instantiate objects of an abstract base class, we can use the abstract base class to declare pointers and references that can refer to objects of any concrete classes derived from the abstract class.
+
 
 ## Chapter 18
 e.g. of a template
